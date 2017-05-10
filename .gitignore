@@ -1,0 +1,11 @@
+# --Maven-- # 
+target/
+
+# --Eclipse-- #
+.project
+.metadata
+bin/**
+tmp/**
+.classpath
+.settings/
+.DS_Store
