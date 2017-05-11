@@ -10,14 +10,14 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 /**
- * An entity that represents a voter, with the list of votes
+ * An entity that represents a candidate
  * 
  * @author ahamouda
  *
  */
 @Entity
-@Table(name = "voters")
-public class Voter implements Serializable {
+@Table(name = "candidates")
+public class Candidate implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -27,6 +27,6 @@ public class Voter implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private String firstname;
-	private String lastname;
+	private String programDesc;
+
 }
