@@ -53,6 +53,14 @@ public class Voter extends Individual implements Serializable {
 	}
 
 	/** Setters and Getters **/
+	public long getVersion() {
+		return version;
+	}
+
+	public void setVersion(long version) {
+		this.version = version;
+	}
+
 	public Long getId() {
 		return id;
 	}
