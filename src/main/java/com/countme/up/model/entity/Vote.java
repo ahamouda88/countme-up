@@ -34,10 +34,6 @@ public class Vote implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	@ManyToOne
-	@JoinColumn(name = "poll_id", nullable = false)
-	@JsonIgnoreProperties(value = "candidateVotes", allowSetters = true)
-	private Poll poll;
-	@ManyToOne
 	@JoinColumn(name = "voter_id", nullable = false)
 	@JsonIgnoreProperties(value = "votes", allowSetters = true)
 	private Voter voter;
@@ -45,7 +41,6 @@ public class Vote implements Serializable {
 	@JoinColumn(name = "candidate_id", nullable = false)
 	@JsonIgnoreProperties(value = "votesReceived", allowSetters = true)
 	private Candidate candidate;
-
 	@NotNull
 	private Date date;
 
@@ -53,8 +48,7 @@ public class Vote implements Serializable {
 	public Vote() {
 	}
 
-	public Vote(Poll poll, Voter voter, Candidate candidate, Date date) {
-		this.poll = poll;
+	public Vote(Voter voter, Candidate candidate, Date date) {
 		this.voter = voter;
 		this.candidate = candidate;
 		this.date = date;
@@ -75,14 +69,6 @@ public class Vote implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Poll getPoll() {
-		return poll;
-	}
-
-	public void setPoll(Poll poll) {
-		this.poll = poll;
 	}
 
 	public Voter getVoter() {
@@ -118,7 +104,6 @@ public class Vote implements Serializable {
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((voter == null) ? 0 : voter.hashCode());
-		result = prime * result + ((poll == null) ? 0 : poll.hashCode());
 		return result;
 	}
 
@@ -140,9 +125,6 @@ public class Vote implements Serializable {
 		if (voter == null) {
 			if (other.voter != null) return false;
 		} else if (!voter.equals(other.voter)) return false;
-		if (poll == null) {
-			if (other.poll != null) return false;
-		} else if (!poll.equals(other.poll)) return false;
 		return true;
 	}
 

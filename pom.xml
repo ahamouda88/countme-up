@@ -22,6 +22,12 @@
 	</properties>
 
 	<dependencies>
+		<!-- Joda Time Dependency -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+		</dependency>
+
 		<!-- Commons Lang Dependency -->
 		<dependency>
 			<groupId>commons-lang</groupId>

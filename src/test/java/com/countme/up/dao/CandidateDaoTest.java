@@ -47,9 +47,9 @@ public class CandidateDaoTest {
 
 	@Test
 	public void testInvalidFind() {
-		assertNull("Find method should return null when given null parameter!", candidateDao.find(null));
+		assertNull("Find method should return null when given null parameter!", candidateDao.findById(null));
 
-		assertNull("Find method should return null when given invalid Id parameter!", candidateDao.find(1000L));
+		assertNull("Find method should return null when given invalid Id parameter!", candidateDao.findById(1000L));
 	}
 
 	@Test
@@ -63,7 +63,7 @@ public class CandidateDaoTest {
 		assertEquals("Failed to update candidate", true, candidateDao.update(candidate));
 
 		// Validate find method and updated fields
-		Candidate newCandidate = candidateDao.find(candidate.getId());
+		Candidate newCandidate = candidateDao.findById(candidate.getId());
 		assertNotNull("Find candidate is failed, and returning null!", newCandidate);
 		assertEquals("Email is not updated!", newEmail, newCandidate.getEmail());
 		assertTrue("List of received votes is not empty!", newCandidate.getVotesReceived().isEmpty());

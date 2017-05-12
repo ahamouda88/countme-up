@@ -27,9 +27,11 @@ public class VoterDaoTest {
 	public void testSave() {
 		Voter voter1 = new Voter("Ahmed", "Hamouda", "ahmedibrahim@msn.com");
 		assertEquals("Failed to save first voter", true, voterDao.save(voter1));
+		assertTrue("First voter is not registered by default!", voter1.getRegistered());
 
 		Voter voter2 = new Voter("Omar", "Ibrahim", "omar@gmail.com");
 		assertEquals("Failed to save second voter", true, voterDao.save(voter2));
+		assertTrue("Second voter is not registered by default!", voter2.getRegistered());
 	}
 
 	@Test
@@ -44,9 +46,9 @@ public class VoterDaoTest {
 
 	@Test
 	public void testInvalidFind() {
-		assertNull("Find method should return null when given null parameter!", voterDao.find(null));
+		assertNull("Find method should return null when given null parameter!", voterDao.findById(null));
 
-		assertNull("Find method should return null when given invalid Id parameter!", voterDao.find(1000L));
+		assertNull("Find method should return null when given invalid Id parameter!", voterDao.findById(1000L));
 	}
 
 	@Test
@@ -60,7 +62,7 @@ public class VoterDaoTest {
 		assertEquals("Failed to update voter", true, voterDao.update(voter));
 
 		// Validate find method and updated fields
-		Voter newVoter = voterDao.find(voter.getId());
+		Voter newVoter = voterDao.findById(voter.getId());
 		assertNotNull("Find voter is failed, and returning null!", newVoter);
 		assertEquals("Email is not updated!", newEmail, newVoter.getEmail());
 		assertTrue("List of voters is not empty!", newVoter.getVotes().isEmpty());

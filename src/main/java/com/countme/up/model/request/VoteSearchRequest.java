@@ -84,4 +84,47 @@ public class VoteSearchRequest {
 			return new VoteSearchRequest(this);
 		}
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((candidateId == null) ? 0 : candidateId.hashCode());
+		result = prime * result + ((fromDate == null) ? 0 : fromDate.hashCode());
+		result = prime * result + ((pollId == null) ? 0 : pollId.hashCode());
+		result = prime * result + ((toDate == null) ? 0 : toDate.hashCode());
+		result = prime * result + ((voterId == null) ? 0 : voterId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (getClass() != obj.getClass()) return false;
+		VoteSearchRequest other = (VoteSearchRequest) obj;
+		if (candidateId == null) {
+			if (other.candidateId != null) return false;
+		} else if (!candidateId.equals(other.candidateId)) return false;
+		if (fromDate == null) {
+			if (other.fromDate != null) return false;
+		} else if (!fromDate.equals(other.fromDate)) return false;
+		if (pollId == null) {
+			if (other.pollId != null) return false;
+		} else if (!pollId.equals(other.pollId)) return false;
+		if (toDate == null) {
+			if (other.toDate != null) return false;
+		} else if (!toDate.equals(other.toDate)) return false;
+		if (voterId == null) {
+			if (other.voterId != null) return false;
+		} else if (!voterId.equals(other.voterId)) return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "VoteSearchRequest [pollId=" + pollId + ", voterId=" + voterId + ", candidateId=" + candidateId
+				+ ", fromDate=" + fromDate + ", toDate=" + toDate + "]";
+	}
+
 }

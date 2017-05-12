@@ -112,7 +112,7 @@ public abstract class AbstMainDao<T, E extends Serializable> {
 	 *            the entity's id
 	 * @return the entity mapped to the given id, or <b>null</b> if entity doesn't exist, or id is invalid
 	 */
-	public T find(E id) {
+	public T findById(E id) {
 		try {
 			return entityManager.find(classType, id);
 		} catch (Exception ex) {
