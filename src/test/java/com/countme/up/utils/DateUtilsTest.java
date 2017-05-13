@@ -22,7 +22,7 @@ public class DateUtilsTest {
 	public void testGetDateByHourAndMin() {
 		/** Create dates **/
 		Date startDate = DateUtils.getDate(2020, 2, 23, 1, 4);
-		Date endDate = DateUtils.getDate(2020, 2, 23, 1, 3);
+		Date endDate = DateUtils.getDate(2020, 2, 23, 1, 5);
 
 		assertNotNull("Start date is not created successfully!", startDate);
 		assertNotNull("End date is not created successfully!", startDate);

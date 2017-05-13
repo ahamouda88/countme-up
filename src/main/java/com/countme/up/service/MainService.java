@@ -8,6 +8,9 @@ import com.countme.up.dao.AbstMainDao;
 /**
  * An interface that defines the business logic for performing main/basic operations on a model, the classes that will
  * implement this interface should have an instance of an implementation of the {@link AbstMainDao}
+ * 
+ * @author ahamouda
+ * 
  */
 public interface MainService<T, E extends Serializable> {
 

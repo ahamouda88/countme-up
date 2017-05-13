@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import java.util.List;
 
@@ -29,27 +30,10 @@ public class CandidateDaoTest {
 	@Before
 	public void testSave() {
 		Candidate candidate1 = new Candidate("Ahmed", "Hamouda", "ahmedibrahim@msn.com", null);
-		assertEquals("Failed to save first candidate", true, candidateDao.save(candidate1));
+		assertTrue("Failed to save first candidate", candidateDao.save(candidate1));
 
 		Candidate candidate2 = new Candidate("Omar", "Ibrahim", "omar@gmail.com", null);
-		assertEquals("Failed to save second candidate", true, candidateDao.save(candidate2));
-	}
-
-	@Test
-	public void testInvalidSave() {
-		assertEquals("Save method should fail when given null parameter!", false, candidateDao.save(null));
-	}
-
-	@Test
-	public void testInvalidRemove() {
-		assertNull("Remove method should fail when given null parameter!", candidateDao.remove(null));
-	}
-
-	@Test
-	public void testInvalidFind() {
-		assertNull("Find method should return null when given null parameter!", candidateDao.findById(null));
-
-		assertNull("Find method should return null when given invalid Id parameter!", candidateDao.findById(1000L));
+		assertTrue("Failed to save second candidate", candidateDao.save(candidate2));
 	}
 
 	@Test
@@ -60,7 +44,7 @@ public class CandidateDaoTest {
 		candidate.setEmail(newEmail);
 
 		// Validate update method
-		assertEquals("Failed to update candidate", true, candidateDao.update(candidate));
+		assertTrue("Failed to update candidate", candidateDao.update(candidate));
 
 		// Validate find method and updated fields
 		Candidate newCandidate = candidateDao.findById(candidate.getId());
@@ -81,13 +65,30 @@ public class CandidateDaoTest {
 	}
 
 	@Test
-	public void testInvalidUpdate() {
-		assertEquals("Update method should fail when given null parameter!", false, candidateDao.update(null));
+	public void testFindAll() {
+		assertEquals("Invalid number of candidates!", 2, candidateDao.findAll().size());
 	}
 
 	@Test
-	public void testFindAll() {
-		assertEquals("Invalid number of candidates!", 2, candidateDao.findAll().size());
+	public void testInvalidSave() {
+		assertFalse("Save method should fail when given null parameter!", candidateDao.save(null));
+	}
+
+	@Test
+	public void testInvalidRemove() {
+		assertNull("Remove method should fail when given null parameter!", candidateDao.remove(null));
+	}
+
+	@Test
+	public void testInvalidFind() {
+		assertNull("Find method should return null when given null parameter!", candidateDao.findById(null));
+
+		assertNull("Find method should return null when given invalid Id parameter!", candidateDao.findById(1000L));
+	}
+
+	@Test
+	public void testInvalidUpdate() {
+		assertFalse("Update method should fail when given null parameter!", candidateDao.update(null));
 	}
 
 }

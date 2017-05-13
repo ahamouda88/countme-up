@@ -106,23 +106,6 @@ public class VoteDaoTest {
 		assertTrue("Failed to save vote11 entity!", voteDao.save(vote11));
 	}
 
-	@Test
-	public void testInvalidSave() {
-		assertEquals("Save method should fail when given null parameter!", false, voterDao.save(null));
-	}
-
-	@Test
-	public void testInvalidRemove() {
-		assertNull("Remove method should fail when given null parameter!", voterDao.remove(null));
-	}
-
-	@Test
-	public void testInvalidFind() {
-		assertNull("Find method should return null when given null parameter!", voterDao.findById(null));
-
-		assertNull("Find method should return null when given invalid Id parameter!", voterDao.findById(1000L));
-	}
-
 	@Test(expected = UnsupportedOperationException.class)
 	public void testUpdate() {
 		List<Vote> list = voteDao.findAll();
@@ -186,6 +169,23 @@ public class VoteDaoTest {
 	@Test
 	public void testFindAll() {
 		assertEquals("Invalid number of candidates!", 11, voteDao.findAll().size());
+	}
+
+	@Test
+	public void testInvalidSave() {
+		assertEquals("Save method should fail when given null parameter!", false, voterDao.save(null));
+	}
+
+	@Test
+	public void testInvalidRemove() {
+		assertNull("Remove method should fail when given null parameter!", voterDao.remove(null));
+	}
+
+	@Test
+	public void testInvalidFind() {
+		assertNull("Find method should return null when given null parameter!", voterDao.findById(null));
+
+		assertNull("Find method should return null when given invalid Id parameter!", voterDao.findById(1000L));
 	}
 
 }

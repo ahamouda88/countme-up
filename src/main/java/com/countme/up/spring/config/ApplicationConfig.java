@@ -12,7 +12,7 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
  * @author ahamouda
  * 
  */
-@SpringBootApplication(scanBasePackages = { "com.countme.up.dao" })
+@SpringBootApplication(scanBasePackages = { "com.countme.up.dao", "com.countme.up.service" })
 @EntityScan(basePackages = "com.countme.up.model.entity")
 public class ApplicationConfig extends SpringBootServletInitializer {
 

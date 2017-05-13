@@ -26,29 +26,12 @@ public class VoterDaoTest {
 	@Before
 	public void testSave() {
 		Voter voter1 = new Voter("Ahmed", "Hamouda", "ahmedibrahim@msn.com");
-		assertEquals("Failed to save first voter", true, voterDao.save(voter1));
+		assertTrue("Failed to save first voter!", voterDao.save(voter1));
 		assertTrue("First voter is not registered by default!", voter1.getRegistered());
 
 		Voter voter2 = new Voter("Omar", "Ibrahim", "omar@gmail.com");
-		assertEquals("Failed to save second voter", true, voterDao.save(voter2));
+		assertTrue("Failed to save second voter!", voterDao.save(voter2));
 		assertTrue("Second voter is not registered by default!", voter2.getRegistered());
-	}
-
-	@Test
-	public void testInvalidSave() {
-		assertEquals("Save method should fail when given null parameter!", false, voterDao.save(null));
-	}
-
-	@Test
-	public void testInvalidRemove() {
-		assertNull("Remove method should fail when given null parameter!", voterDao.remove(null));
-	}
-
-	@Test
-	public void testInvalidFind() {
-		assertNull("Find method should return null when given null parameter!", voterDao.findById(null));
-
-		assertNull("Find method should return null when given invalid Id parameter!", voterDao.findById(1000L));
 	}
 
 	@Test
@@ -80,13 +63,30 @@ public class VoterDaoTest {
 	}
 
 	@Test
-	public void testInvalidUpdate() {
-		assertEquals("Update method should fail when given null parameter!", false, voterDao.update(null));
+	public void testFindAll() {
+		assertEquals("Invalid number of voters!", 2, voterDao.findAll().size());
 	}
 
 	@Test
-	public void testFindAll() {
-		assertEquals("Invalid number of voters!", 2, voterDao.findAll().size());
+	public void testInvalidSave() {
+		assertFalse("Save method should fail when given null parameter!", voterDao.save(null));
+	}
+
+	@Test
+	public void testInvalidRemove() {
+		assertNull("Remove method should fail when given null parameter!", voterDao.remove(null));
+	}
+
+	@Test
+	public void testInvalidFind() {
+		assertNull("Find method should return null when given null parameter!", voterDao.findById(null));
+
+		assertNull("Find method should return null when given invalid Id parameter!", voterDao.findById(1000L));
+	}
+
+	@Test
+	public void testInvalidUpdate() {
+		assertFalse("Update method should fail when given null parameter!", voterDao.update(null));
 	}
 
 }
