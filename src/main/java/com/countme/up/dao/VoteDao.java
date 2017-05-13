@@ -37,7 +37,7 @@ public class VoteDao extends AbstMainDao<Vote, Long> {
 	 * 
 	 * @param searchRequest
 	 *            a {@link VoteSearchRequest}
-	 * @return list of votes if the selection is successful, otherwise it will return <b>null</b>
+	 * @return list of votes if the selection is successful, otherwise it will return <i><b>null</b></i>
 	 */
 	public List<Vote> findByRequest(VoteSearchRequest searchRequest) {
 		try {

@@ -14,7 +14,18 @@ import com.countme.up.model.request.VoteSearchRequest;
 public interface VoteService extends MainService<Vote, Long> {
 
 	/**
-	 * This method searches through the votes given a {@link VoteSearchRequest} having all the parameters needed to
+	 * A method that creates a {@link Vote}, given a voter's Id and a candidate's Id
+	 * 
+	 * @param voterId
+	 *            a voter's Id
+	 * @param candidateId
+	 *            a candidate's Id
+	 * @return the new created vote if added successfully, otherwise return <i><b>null</b></i>
+	 */
+	public abstract Vote create(Long voterId, Long candidateId);
+
+	/**
+	 * A method that searches through the votes given a {@link VoteSearchRequest} having all the parameters needed to
 	 * perform the search
 	 * 
 	 * @param searchRequest

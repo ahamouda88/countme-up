@@ -74,6 +74,16 @@ public class VoterServiceTest {
 		assertEquals("Invalid number of voters, after deleting one voter!", 1, voterService.getAll().size());
 	}
 
+	@Test
+	public void testDeleteByKey() {
+		Voter voter = voterService.deleteByKey(voterId1);
+
+		assertNotNull("Failed to delete voter!", voter);
+		assertEquals("Deleted voter is  incorrect!", "Hamouda", voter.getLastname());
+
+		assertEquals("Invalid number of voters, after deleting one voter!", 1, voterService.getAll().size());
+	}
+
 	@Test(expected = NullPointerException.class)
 	public void testInvalidAdd() {
 		voterService.add(null);
