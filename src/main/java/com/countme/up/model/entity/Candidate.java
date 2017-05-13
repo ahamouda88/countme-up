@@ -1,7 +1,7 @@
 package com.countme.up.model.entity;
 
 import java.io.Serializable;
-import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -39,7 +39,7 @@ public class Candidate extends Individual implements Serializable {
 	private String programDesc;
 	@OneToMany(mappedBy = "candidate", cascade = CascadeType.ALL)
 	@JsonIgnoreProperties(value = "candidate", allowSetters = true)
-	private List<Vote> votesReceived = Collections.emptyList();
+	private List<Vote> votesReceived = new LinkedList<>();
 
 	/** Constructors **/
 	public Candidate() {

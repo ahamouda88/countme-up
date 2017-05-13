@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.countme.up.dao.CandidateDao;
 import com.countme.up.model.entity.Candidate;
@@ -18,6 +19,7 @@ import com.countme.up.service.CandidateService;
  *
  */
 @Service
+@Transactional
 public class CandidateServiceImpl implements CandidateService {
 
 	@Autowired
@@ -50,7 +52,7 @@ public class CandidateServiceImpl implements CandidateService {
 	public Candidate deleteByKey(Long key) {
 		Candidate candidate = get(key);
 
-		return candidateDao.remove(candidate);
+		return this.delete(candidate);
 	}
 
 	/**

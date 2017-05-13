@@ -11,16 +11,16 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.countme.up.dao.VoterDao;
 import com.countme.up.model.entity.Voter;
-import com.countme.up.service.impl.VoterServiceImpl;
 import com.countme.up.spring.config.ApplicationConfig;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@SpringBootTest(classes = { ApplicationConfig.class, VoterServiceImpl.class, VoterDao.class })
+@SpringBootTest(classes = { ApplicationConfig.class })
+@ComponentScan(basePackages = { "com.countme.up.dao", "com.countme.up.service" })
 public class VoterServiceTest {
 
 	@Autowired

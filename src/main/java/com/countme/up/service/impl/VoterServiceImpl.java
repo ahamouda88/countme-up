@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.countme.up.dao.VoterDao;
 import com.countme.up.model.entity.Voter;
@@ -18,6 +19,7 @@ import com.countme.up.service.VoterService;
  *
  */
 @Service
+@Transactional
 public class VoterServiceImpl implements VoterService {
 
 	@Autowired
@@ -50,7 +52,7 @@ public class VoterServiceImpl implements VoterService {
 	public Voter deleteByKey(Long key) {
 		Voter voter = get(key);
 
-		return voterDao.remove(voter);
+		return this.delete(voter);
 	}
 
 	/**

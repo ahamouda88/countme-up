@@ -25,6 +25,7 @@ import com.countme.up.service.VoteService;
  *
  */
 @Service
+
 public class VoteServiceImpl implements VoteService {
 
 	@Autowired
@@ -60,10 +61,14 @@ public class VoteServiceImpl implements VoteService {
 	public boolean add(Vote vote) {
 		checkNullParameters(vote, vote.getVoter(), vote.getCandidate(), vote.getDate());
 
+		boolean check = voteDao.save(vote);
+		// If vote is successfully added then update the list of votes in both voter, and candidate
+		if (!check) return false;
+
 		vote.getVoter().getVotes().add(vote);
 		vote.getCandidate().getVotesReceived().add(vote);
 
-		return voteDao.save(vote);
+		return true;
 	}
 
 	/**
@@ -73,7 +78,13 @@ public class VoteServiceImpl implements VoteService {
 	public Vote delete(Vote vote) {
 		checkNullParameters(vote);
 
-		return voteDao.remove(vote);
+		Vote removedVote = voteDao.remove(vote);
+		// If removed vote is not null, then remove the vote from the list of votes in both voter, and candidate
+		if (removedVote == null) return null;
+		removedVote.getVoter().getVotes().remove(removedVote);
+		removedVote.getCandidate().getVotesReceived().remove(removedVote);
+
+		return removedVote;
 	}
 
 	/**
@@ -83,7 +94,7 @@ public class VoteServiceImpl implements VoteService {
 	public Vote deleteByKey(Long key) {
 		Vote vote = get(key);
 
-		return voteDao.remove(vote);
+		return this.delete(vote);
 	}
 
 	/**
@@ -91,9 +102,7 @@ public class VoteServiceImpl implements VoteService {
 	 */
 	@Override
 	public boolean update(Vote vote) {
-		checkNullParameters(vote);
-
-		return voteDao.update(vote);
+		throw new UnsupportedOperationException("Update operation is invalid for votes");
 	}
 
 	/**

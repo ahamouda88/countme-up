@@ -3,7 +3,7 @@ package com.countme.up.model.entity;
 import static org.apache.commons.lang.BooleanUtils.isTrue;
 
 import java.io.Serializable;
-import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -40,7 +40,7 @@ public class Voter extends Individual implements Serializable {
 	private Long id;
 	@OneToMany(mappedBy = "voter", cascade = CascadeType.ALL)
 	@JsonIgnoreProperties(value = "voter", allowSetters = true)
-	private List<Vote> votes = Collections.emptyList();
+	private List<Vote> votes = new LinkedList<>();
 	/** Assuming that the voter is always registered **/
 	private Boolean registered = true;
 

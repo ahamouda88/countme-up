@@ -164,11 +164,18 @@ public class VoteDaoTest {
 		assertEquals("Invalid number of returned votes, after search!", 3, voteList.size());
 		assertEquals("First vote in the returned votes is incorrect!", "Quynh",
 				voteList.get(0).getVoter().getFirstname());
+
+		/** Testing with invalid dates: "from" date is after the "to" date **/
+		request = VoteSearchRequest.builder().fromDate(DateUtils.getDate(2017, 8, 2))
+				.toDate(DateUtils.getDate(2017, 5, 2)).build();
+		voteList = voteDao.findByRequest(request);
+
+		assertEquals("Invalid number of returned votes, after search!", 0, voteList.size());
 	}
 
 	@Test
 	public void testFindAll() {
-		assertEquals("Invalid number of candidates!", 11, voteDao.findAll().size());
+		assertEquals("Invalid number of votes!", 11, voteDao.findAll().size());
 	}
 
 	@Test
