@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.countme.up.dao.CandidateDao;
 import com.countme.up.dao.VoteDao;
@@ -25,7 +26,7 @@ import com.countme.up.service.VoteService;
  *
  */
 @Service
-
+@Transactional
 public class VoteServiceImpl implements VoteService {
 
 	@Autowired
@@ -60,6 +61,9 @@ public class VoteServiceImpl implements VoteService {
 	@Override
 	public boolean add(Vote vote) {
 		checkNullParameters(vote, vote.getVoter(), vote.getCandidate(), vote.getDate());
+
+		// Return false if voter is not registered
+		if (!vote.getVoter().getRegistered()) return false;
 
 		boolean check = voteDao.save(vote);
 		// If vote is successfully added then update the list of votes in both voter, and candidate

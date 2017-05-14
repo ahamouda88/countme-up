@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,9 +39,11 @@ public class Voter extends Individual implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	@OneToMany(mappedBy = "voter", cascade = CascadeType.ALL)
+
+	@OneToMany(mappedBy = "voter", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonIgnoreProperties(value = "voter", allowSetters = true)
 	private List<Vote> votes = new LinkedList<>();
+
 	/** Assuming that the voter is always registered **/
 	private Boolean registered = true;
 

@@ -89,9 +89,9 @@ public class VoterServiceTest {
 		voterService.add(null);
 	}
 
-	@Test(expected = NullPointerException.class)
+	@Test
 	public void testInvalidDelete() {
-		voterService.delete(null);
+		assertNull("Delete method should return null when given invalid parameter!", voterService.delete(null));
 	}
 
 	@Test(expected = NullPointerException.class)

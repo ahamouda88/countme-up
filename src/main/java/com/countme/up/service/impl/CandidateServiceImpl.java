@@ -40,7 +40,7 @@ public class CandidateServiceImpl implements CandidateService {
 	 */
 	@Override
 	public Candidate delete(Candidate candidate) {
-		checkNullParameters(candidate);
+		if (candidate == null) return null;
 
 		return candidateDao.remove(candidate);
 	}

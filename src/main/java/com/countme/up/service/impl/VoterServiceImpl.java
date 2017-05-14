@@ -40,7 +40,7 @@ public class VoterServiceImpl implements VoterService {
 	 */
 	@Override
 	public Voter delete(Voter voter) {
-		checkNullParameters(voter);
+		if (voter == null) return null;
 
 		return voterDao.remove(voter);
 	}

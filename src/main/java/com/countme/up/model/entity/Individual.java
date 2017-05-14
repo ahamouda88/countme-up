@@ -2,16 +2,20 @@ package com.countme.up.model.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.MappedSuperclass;
+
 /**
  * An entity that represents an individual and contains main individual information
  * 
  * @author ahamouda
  *
  */
+@MappedSuperclass
 public abstract class Individual implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	/** Assuming non of these fields are mandatory **/
 	private String firstname;
 	private String lastname;
 	private String email;
