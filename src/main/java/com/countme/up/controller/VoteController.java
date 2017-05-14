@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.countme.up.model.CandidateCount;
 import com.countme.up.model.constants.PathConstants;
 import com.countme.up.model.entity.Candidate;
 import com.countme.up.model.entity.Vote;
@@ -83,7 +84,7 @@ public class VoteController implements ControllerCommonMethods {
 			@RequestParam(name = "tdate", required = false) Date toDate) {
 
 		List<String> errors = new LinkedList<>();
-		Map<Candidate, Long> votesMap = null;
+		CandidateCount[] votesMap = null;
 		try {
 			VoteSearchRequest searchRequest = VoteSearchRequest.builder().candidateId(candidateId).voterId(voterId)
 					.fromDate(fromDate).toDate(toDate).build();

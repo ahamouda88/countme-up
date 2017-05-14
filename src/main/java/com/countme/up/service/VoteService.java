@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.countme.up.model.CandidateCount;
 import com.countme.up.model.entity.Candidate;
 import com.countme.up.model.entity.Vote;
 import com.countme.up.model.request.VoteSearchRequest;
@@ -48,7 +49,7 @@ public interface VoteService extends MainService<Vote, Long> {
 	 * 
 	 * @param searchRequest
 	 *            a {@link VoteSearchRequest}
-	 * @return a map that contains the number of votes received for each candidate
+	 * @return an array of {@link CandidateCount} objects that contains the number of votes received for each candidate
 	 */
-	public abstract Map<Candidate, Long> getResults(VoteSearchRequest searchRequest);
+	public abstract CandidateCount[] getResults(VoteSearchRequest searchRequest);
 }

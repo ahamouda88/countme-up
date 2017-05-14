@@ -15,11 +15,11 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.countme.up.model.entity.Voter;
-import com.countme.up.spring.config.ApplicationConfig;
+import com.countme.up.spring.config.ApplicationTestConfig;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@SpringBootTest(classes = { ApplicationConfig.class })
+@SpringBootTest(classes = { ApplicationTestConfig.class })
 @ComponentScan(basePackages = { "com.countme.up.dao", "com.countme.up.service" })
 public class VoterServiceTest {
 

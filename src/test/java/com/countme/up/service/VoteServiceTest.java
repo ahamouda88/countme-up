@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,17 +18,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.countme.up.model.CandidateCount;
 import com.countme.up.model.entity.Candidate;
 import com.countme.up.model.entity.Vote;
 import com.countme.up.model.entity.Voter;
 import com.countme.up.model.exception.MaxNbrOfVotesReachedException;
 import com.countme.up.model.request.VoteSearchRequest;
-import com.countme.up.spring.config.ApplicationConfig;
+import com.countme.up.spring.config.ApplicationTestConfig;
 import com.countme.up.utils.DateUtils;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@SpringBootTest(classes = { ApplicationConfig.class })
+@SpringBootTest(classes = { ApplicationTestConfig.class })
 @ComponentScan(basePackages = { "com.countme.up.dao", "com.countme.up.service" })
 public class VoteServiceTest {
 
@@ -272,13 +272,13 @@ public class VoteServiceTest {
 		expectedCount.put(candidateIds[0], 6L);
 		expectedCount.put(candidateIds[1], 1L);
 		expectedCount.put(candidateIds[2], 4L);
-		Map<Candidate, Long> resultMap = voteService.getResults(VoteSearchRequest.builder().build());
-		assertEquals("Invalid number of candidates!", 3, resultMap.size());
+		CandidateCount[] resultCount = voteService.getResults(VoteSearchRequest.builder().build());
+		assertEquals("Invalid number of candidates!", 3, resultCount.length);
 
-		for (Entry<Candidate, Long> entry : resultMap.entrySet()) {
-			long candidateId = entry.getKey().getId();
+		for (CandidateCount candidateCount: resultCount) {
+			long candidateId = candidateCount.getCandidate().getId();
 			long expectedValue = expectedCount.get(candidateId);
-			long actualValue = entry.getValue();
+			long actualValue = candidateCount.getVotes();
 			assertEquals("Invalid number of received votes for candidate: " + candidateId, expectedValue, actualValue);
 		}
 	}

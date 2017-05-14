@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.countme.up.dao.CandidateDao;
 import com.countme.up.dao.VoteDao;
 import com.countme.up.dao.VoterDao;
+import com.countme.up.model.CandidateCount;
 import com.countme.up.model.entity.Candidate;
 import com.countme.up.model.entity.Vote;
 import com.countme.up.model.entity.Voter;
@@ -155,11 +157,11 @@ public class VoteServiceImpl implements VoteService {
 	 * @see VoteService#getResults(VoteSearchRequest)
 	 */
 	@Override
-	public Map<Candidate, Long> getResults(VoteSearchRequest searchRequest) {
+	public CandidateCount[] getResults(VoteSearchRequest searchRequest) {
 		List<Vote> allVotes = this.search(searchRequest);
 
 		if (allVotes == null) return null;
-
+		// TODO: Refactoring
 		Map<Candidate, Long> map = new HashMap<>();
 		for (Vote vote : allVotes) {
 			Long count = map.get(vote.getCandidate());
@@ -167,6 +169,11 @@ public class VoteServiceImpl implements VoteService {
 
 			map.put(vote.getCandidate(), ++count);
 		}
-		return map;
+		CandidateCount[] candidateCountArr = new CandidateCount[map.size()];
+		int i = 0;
+		for (Entry<Candidate, Long> entry : map.entrySet()) {
+			candidateCountArr[i++] = new CandidateCount(entry.getKey(), entry.getValue());
+		}
+		return candidateCountArr;
 	}
 }

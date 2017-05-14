@@ -34,13 +34,16 @@ public class ApplicationConfig extends SpringBootServletInitializer {
 	}
 
 	/**
-	 * A Bean for initializing data, by creating 4 candidates, and 20 voters
+	 * A Bean for initializing and setting up the database, by creating 4 candidates, and 20 voters
 	 * 
-	 * @param service
+	 * @param voterService
+	 *            the {@link VoterService}
+	 * @param candidateService
+	 *            the {@link CandidateService}
 	 * @return a {@link CommandLineRunner}
 	 */
 	@Bean
-	public CommandLineRunner demo(VoterService voterService, CandidateService candidateService) {
+	public CommandLineRunner databaseSetup(VoterService voterService, CandidateService candidateService) {
 		return (args) -> {
 			/** Create voters **/
 			for (int i = 1; i <= 20; i++) {

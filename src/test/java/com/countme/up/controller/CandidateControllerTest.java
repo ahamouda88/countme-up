@@ -26,11 +26,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.countme.up.model.constants.PathConstants;
 import com.countme.up.model.entity.Candidate;
-import com.countme.up.spring.config.ApplicationConfig;
+import com.countme.up.spring.config.ApplicationTestConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { ApplicationConfig.class })
+@SpringBootTest(classes = { ApplicationTestConfig.class })
 @ComponentScan(basePackages = { "com.countme.up.dao", "com.countme.up.service", "com.countme.up.controller" })
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class CandidateControllerTest {

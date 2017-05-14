@@ -1,6 +1,9 @@
 package com.countme.up.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
 import java.util.List;
@@ -11,18 +14,20 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.countme.up.model.entity.Candidate;
 import com.countme.up.model.entity.Vote;
 import com.countme.up.model.entity.Voter;
 import com.countme.up.model.request.VoteSearchRequest;
-import com.countme.up.spring.config.ApplicationConfig;
+import com.countme.up.spring.config.ApplicationTestConfig;
 import com.countme.up.utils.DateUtils;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@SpringBootTest(classes = { ApplicationConfig.class, VoteDao.class, CandidateDao.class, VoterDao.class })
+@SpringBootTest(classes = { ApplicationTestConfig.class })
+@ComponentScan(basePackages = { "com.countme.up.dao", "com.countme.up.service", "com.countme.up.controller" })
 public class VoteDaoTest {
 
 	@Autowired

@@ -1,5 +1,6 @@
 package com.countme.up.controller;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -26,13 +28,14 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.countme.up.model.constants.PathConstants;
 import com.countme.up.model.entity.Candidate;
 import com.countme.up.model.entity.Voter;
-import com.countme.up.spring.config.ApplicationConfig;
+import com.countme.up.spring.config.ApplicationTestConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { ApplicationConfig.class })
+@SpringBootTest(classes = { ApplicationTestConfig.class })
 @ComponentScan(basePackages = { "com.countme.up.dao", "com.countme.up.service", "com.countme.up.controller" })
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
+@ActiveProfiles("test")
 public class VoteControllerTest {
 
 	private MockMvc mockMvc;
@@ -114,10 +117,27 @@ public class VoteControllerTest {
 			   		.andExpect(jsonPath("$.status.errors[0]", is("Failed to delete vote with the following Id 10")));
 		//@formatter:on
 	}
-	
+
 	@After
-	public void testGetResultsAndSearch(){
-		
+	public void testGetResultsAndSearch() throws Exception {
+		/** Test get results without parameters **/
+		//@formatter:off
+		mockMvc.perform(get(PathConstants.VOTE_MAIN_PATH + PathConstants.VOTE_RESULTS_PATH))
+			   		.andExpect(status().isOk())
+			   		.andExpect(jsonPath("$.status.message", is("Success")))
+			   		.andExpect(jsonPath("$.data", hasSize(3)))
+			   		.andExpect(jsonPath("$.data[0].votes", is(1)))
+					.andExpect(jsonPath("$.data[1].votes", is(1)))
+					.andExpect(jsonPath("$.data[2].votes", is(1)));
+		//@formatter:on
+
+		/** Test get results **/
+		//@formatter:off
+		mockMvc.perform(get(PathConstants.VOTE_MAIN_PATH + PathConstants.VOTE_RESULTS_PATH).param("cid", "3"))
+			   		.andExpect(status().isOk())
+			   		.andExpect(jsonPath("$.status.message", is("Success")))
+			   		.andExpect(jsonPath("$.data", hasSize(1)));
+		//@formatter:on
 	}
 
 	private void testCreateVoter(String firstname, String lastname, String email, int id) throws Exception {
