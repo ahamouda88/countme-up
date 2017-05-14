@@ -42,9 +42,6 @@ public class VoterController {
 		return createBaseResponse(httpStatus, null, message, voters);
 	}
 
-	/*
-	 * { "firstname": "Ahmed", "lastname": "Hamouda" }
-	 */
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<BaseResponse> addVoter(@RequestBody Voter voter) {
 		List<String> errors = new LinkedList<>();

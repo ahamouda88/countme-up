@@ -4,7 +4,9 @@ import static com.countme.up.utils.ParametersUtils.checkNullParameters;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -135,5 +137,22 @@ public class VoteServiceImpl implements VoteService {
 		checkNullParameters(searchRequest);
 
 		return voteDao.findByRequest(searchRequest);
+	}
+
+	/**
+	 * @see VoteService#getResults()
+	 */
+	@Override
+	public Map<Candidate, Long> getResults() {
+		List<Vote> allVotes = this.getAll();
+		Map<Candidate, Long> map = new HashMap<>();
+
+		for (Vote vote : allVotes) {
+			Long count = map.get(vote.getCandidate());
+			if (count == null) count = 0L;
+
+			map.put(vote.getCandidate(), ++count);
+		}
+		return map;
 	}
 }

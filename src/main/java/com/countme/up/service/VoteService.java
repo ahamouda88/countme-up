@@ -1,7 +1,9 @@
 package com.countme.up.service;
 
 import java.util.List;
+import java.util.Map;
 
+import com.countme.up.model.entity.Candidate;
 import com.countme.up.model.entity.Vote;
 import com.countme.up.model.request.VoteSearchRequest;
 
@@ -33,4 +35,11 @@ public interface VoteService extends MainService<Vote, Long> {
 	 * @return list of votes if the selection is successful, otherwise it will return <i><b>null</b></i>
 	 */
 	public abstract List<Vote> search(VoteSearchRequest searchRequest);
+
+	/**
+	 * A method that returns the a map that represents each candidate and the number of votes received
+	 * 
+	 * @return a map that contains the number of votes received for each candidate
+	 */
+	public abstract Map<Candidate, Long> getResults();
 }

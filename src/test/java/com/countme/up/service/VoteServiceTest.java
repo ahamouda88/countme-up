@@ -5,7 +5,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -260,6 +263,23 @@ public class VoteServiceTest {
 	@Test
 	public void testFindAll() {
 		assertEquals("Invalid number of votes!", 11, voteService.getAll().size());
+	}
+
+	@Test
+	public void testGetResults() {
+		Map<Long, Long> expectedCount = new HashMap<>();
+		expectedCount.put(candidateIds[0], 6L);
+		expectedCount.put(candidateIds[1], 1L);
+		expectedCount.put(candidateIds[2], 4L);
+		Map<Candidate, Long> resultMap = voteService.getResults();
+		assertEquals("Invalid number of candidates!", 3, resultMap.size());
+
+		for (Entry<Candidate, Long> entry : resultMap.entrySet()) {
+			long candidateId = entry.getKey().getId();
+			long expectedValue = expectedCount.get(candidateId);
+			long actualValue = entry.getValue();
+			assertEquals("Invalid number of received votes for candidate: " + candidateId, expectedValue, actualValue);
+		}
 	}
 
 	@Test(expected = NullPointerException.class)

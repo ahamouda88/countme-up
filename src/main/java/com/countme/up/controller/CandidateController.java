@@ -42,9 +42,6 @@ public class CandidateController {
 		return createBaseResponse(httpStatus, null, message, candidates);
 	}
 
-	/*
-	 * { "firstname": "Ahmed", "lastname": "Hamouda" }
-	 */
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<BaseResponse> addCandidate(@RequestBody Candidate candidate) {
 		List<String> errors = new LinkedList<>();
