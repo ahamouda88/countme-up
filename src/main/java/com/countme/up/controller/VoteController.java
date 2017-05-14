@@ -3,6 +3,7 @@ package com.countme.up.controller;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.countme.up.model.constants.PathConstants;
+import com.countme.up.model.entity.Candidate;
 import com.countme.up.model.entity.Vote;
+import com.countme.up.model.request.VoteSearchRequest;
 import com.countme.up.model.response.BaseResponse;
 import com.countme.up.service.VoteService;
 
@@ -63,5 +66,41 @@ public class VoteController implements ControllerCommonMethods {
 			errors.add(ex.getMessage());
 		}
 		return createBaseResponse(HttpStatus.OK, HttpStatus.BAD_REQUEST, errors, vote);
+	}
+
+	@RequestMapping(method = RequestMethod.GET, path = PathConstants.VOTE_RESULTS_PATH)
+	public ResponseEntity<BaseResponse> getResults(@RequestParam(name = "cid", required = false) Long candidateId,
+			@RequestParam(name = "vid", required = false) Long voterId,
+			@RequestParam(name = "fdate", required = false) Date fromDate,
+			@RequestParam(name = "tdate", required = false) Date toDate) {
+
+		List<String> errors = new LinkedList<>();
+		Map<Candidate, Long> votesMap = null;
+		try {
+			VoteSearchRequest searchRequest = VoteSearchRequest.builder().candidateId(candidateId).voterId(voterId)
+					.fromDate(fromDate).toDate(toDate).build();
+			votesMap = voteService.getResults(searchRequest);
+		} catch (Exception ex) {
+			errors.add(ex.getMessage());
+		}
+		return createBaseResponse(HttpStatus.OK, HttpStatus.BAD_REQUEST, errors, votesMap);
+	}
+
+	@RequestMapping(method = RequestMethod.GET, path = PathConstants.VOTE_SEARCH_PATH)
+	public ResponseEntity<BaseResponse> searchVotes(@RequestParam(name = "cid", required = false) Long candidateId,
+			@RequestParam(name = "vid", required = false) Long voterId,
+			@RequestParam(name = "fdate", required = false) Date fromDate,
+			@RequestParam(name = "tdate", required = false) Date toDate) {
+
+		List<String> errors = new LinkedList<>();
+		List<Vote> votesMap = null;
+		try {
+			VoteSearchRequest searchRequest = VoteSearchRequest.builder().candidateId(candidateId).voterId(voterId)
+					.fromDate(fromDate).toDate(toDate).build();
+			votesMap = voteService.search(searchRequest);
+		} catch (Exception ex) {
+			errors.add(ex.getMessage());
+		}
+		return createBaseResponse(HttpStatus.OK, HttpStatus.BAD_REQUEST, errors, votesMap);
 	}
 }

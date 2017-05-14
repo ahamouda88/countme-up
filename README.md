@@ -67,11 +67,14 @@ Count me up is a vote counting and results generating system, and it is a web se
 | /votes/results?cid={cid}&vid={vid}&fdate={fdate}&tdate={tdate}| Returns results of the poll in a map format |     GET     |
 | /votes/search?cid={cid}&vid={vid}&fdate={fdate}&tdate={tdate} | Searches the votes      					  |     GET     |
 
+##### Query Parameters
+```json
+cid = Candidate Id
+vid = Voter Id
+fdate = From/Start date
+tdate = To/End date
+```
+
 > Note: Difference between results and search end-points is that the results returns each candidate along with the number of received votes, while the search end-point returns detailed information about the votes, such as date, voters, ...etc
-#### Votes Search End-Point
-* URI: /votes/search?cid={cid}&vid={vid}&fdate={fdate}&tdate={tdate}
-* Description: Filters votes based on to the given candidate Id, voter Id, from date, and to date
-* Request Params: (candidate Id, Voter `Id, fromDate, toDate) all parameters are OPTIONAL
-* Method: GET
 
 > Note: Date provided should be in the following format: MM-dd-yyyy. For example: 08-21-2017
