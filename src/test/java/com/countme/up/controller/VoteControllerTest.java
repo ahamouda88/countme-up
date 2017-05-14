@@ -128,15 +128,33 @@ public class VoteControllerTest {
 			   		.andExpect(jsonPath("$.data", hasSize(3)))
 			   		.andExpect(jsonPath("$.data[0].votes", is(1)))
 					.andExpect(jsonPath("$.data[1].votes", is(1)))
-					.andExpect(jsonPath("$.data[2].votes", is(1)));
+					.andExpect(jsonPath("$.data[2].votes", is(3)));
 		//@formatter:on
 
 		/** Test get results **/
 		//@formatter:off
-		mockMvc.perform(get(PathConstants.VOTE_MAIN_PATH + PathConstants.VOTE_RESULTS_PATH).param("cid", "3"))
+		mockMvc.perform(get(PathConstants.VOTE_MAIN_PATH + PathConstants.VOTE_RESULTS_PATH)
+					.param("cid", "3"))
+			   			.andExpect(status().isOk())
+			   			.andExpect(jsonPath("$.status.message", is("Success")))
+			   			.andExpect(jsonPath("$.data", hasSize(1)));
+		//@formatter:on
+
+		/** Test search without parameters **/
+		//@formatter:off
+		mockMvc.perform(get(PathConstants.VOTE_MAIN_PATH + PathConstants.VOTE_SEARCH_PATH))
 			   		.andExpect(status().isOk())
 			   		.andExpect(jsonPath("$.status.message", is("Success")))
-			   		.andExpect(jsonPath("$.data", hasSize(1)));
+			   		.andExpect(jsonPath("$.data", hasSize(5)));
+		//@formatter:on
+
+		/** Test search **/
+		//@formatter:off
+		mockMvc.perform(get(PathConstants.VOTE_MAIN_PATH + PathConstants.VOTE_SEARCH_PATH)
+					.param("cid", "3")
+					.param("fdate", "08-21-2017:10:9:30"))
+			   			.andExpect(status().isOk())
+			   			.andExpect(jsonPath("$.status.message", is("Success")));
 		//@formatter:on
 	}
 
@@ -173,11 +191,13 @@ public class VoteControllerTest {
 
 	private void testCreateVote(Long candidateId, Long voterId) throws Exception {
 		//@formatter:off
-		mockMvc.perform(get(PathConstants.VOTE_MAIN_PATH).param("cid", String.valueOf(candidateId)).param("vid", String.valueOf(voterId)))
-			   		.andExpect(status().isCreated())
-			   		.andExpect(jsonPath("$.status.message", is("Success")))
-			   		.andExpect(jsonPath("$.data.id", notNullValue()))
-			   		.andExpect(jsonPath("$.data.date", notNullValue()));
+		mockMvc.perform(get(PathConstants.VOTE_MAIN_PATH)
+					.param("cid", String.valueOf(candidateId))
+					.param("vid", String.valueOf(voterId)))
+			   			.andExpect(status().isCreated())
+			   			.andExpect(jsonPath("$.status.message", is("Success")))
+			   			.andExpect(jsonPath("$.data.id", notNullValue()))
+			   			.andExpect(jsonPath("$.data.date", notNullValue()));
 		//@formatter:on
 	}
 

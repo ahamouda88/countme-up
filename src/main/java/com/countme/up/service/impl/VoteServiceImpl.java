@@ -4,10 +4,10 @@ import static com.countme.up.utils.ParametersUtils.checkNullParameters;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -161,19 +161,17 @@ public class VoteServiceImpl implements VoteService {
 		List<Vote> allVotes = this.search(searchRequest);
 
 		if (allVotes == null) return null;
-		// TODO: Refactoring
-		Map<Candidate, Long> map = new HashMap<>();
-		for (Vote vote : allVotes) {
-			Long count = map.get(vote.getCandidate());
-			if (count == null) count = 0L;
 
-			map.put(vote.getCandidate(), ++count);
+		Set<Long> candidateIds = new HashSet<>();
+		List<CandidateCount> candidateCount = new LinkedList<>();
+		for (Vote vote : allVotes) {
+			Candidate candidate = vote.getCandidate();
+			if (!candidateIds.contains(candidate.getId())) {
+				candidateCount.add(new CandidateCount(candidate, candidate.getVotesReceived().size()));
+				candidateIds.add(candidate.getId());
+			}
 		}
-		CandidateCount[] candidateCountArr = new CandidateCount[map.size()];
-		int i = 0;
-		for (Entry<Candidate, Long> entry : map.entrySet()) {
-			candidateCountArr[i++] = new CandidateCount(entry.getKey(), entry.getValue());
-		}
-		return candidateCountArr;
+
+		return candidateCount.toArray(new CandidateCount[candidateCount.size()]);
 	}
 }

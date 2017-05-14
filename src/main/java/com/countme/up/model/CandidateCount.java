@@ -15,9 +15,9 @@ public class CandidateCount implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Candidate candidate;
-	private Long votes;
+	private Integer votes;
 
-	public CandidateCount(Candidate candidate, Long votes) {
+	public CandidateCount(Candidate candidate, Integer votes) {
 		this.candidate = candidate;
 		this.votes = votes;
 	}
@@ -30,11 +30,11 @@ public class CandidateCount implements Serializable {
 		this.candidate = candidate;
 	}
 
-	public Long getVotes() {
+	public Integer getVotes() {
 		return votes;
 	}
 
-	public void setVotes(Long votes) {
+	public void setVotes(Integer votes) {
 		this.votes = votes;
 	}
 

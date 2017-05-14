@@ -77,4 +77,4 @@ tdate = To/End date
 
 > Note: Difference between results and search end-points is that the results returns each candidate along with the number of received votes, while the search end-point returns detailed information about the votes, such as date, voters, ...etc
 
-> Note: Date provided should be in the following format: MM-dd-yyyy. For example: 08-21-2017
+> Note: Date provided should be in the following format: MM-dd-yyyy:HH:mm:ss. For example: 08-21-2017:10:9:30

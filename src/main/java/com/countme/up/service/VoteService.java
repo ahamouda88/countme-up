@@ -2,11 +2,10 @@ package com.countme.up.service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import com.countme.up.model.CandidateCount;
-import com.countme.up.model.entity.Candidate;
 import com.countme.up.model.entity.Vote;
+import com.countme.up.model.exception.MaxNbrOfVotesReachedException;
 import com.countme.up.model.request.VoteSearchRequest;
 
 /**
