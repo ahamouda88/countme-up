@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.countme.up.model.constants.PathConstants;
 import com.countme.up.model.entity.Candidate;
 import com.countme.up.model.entity.Vote;
+import com.countme.up.model.exception.MaxNbrOfVotesReachedException;
 import com.countme.up.model.request.VoteSearchRequest;
 import com.countme.up.model.response.BaseResponse;
 import com.countme.up.service.VoteService;
@@ -33,13 +34,17 @@ public class VoteController implements ControllerCommonMethods {
 			@RequestParam(name = "vid") Long voterId, @RequestParam(name = "date", required = false) Date date) {
 
 		List<String> errors = new LinkedList<>();
+		HttpStatus failHttpStatus = HttpStatus.BAD_REQUEST;
 		Vote vote = null;
 		try {
 			vote = voteService.create(voterId, candidateId, date);
+		} catch (MaxNbrOfVotesReachedException ex) {
+			errors.add(ex.getMessage());
+			failHttpStatus = HttpStatus.FORBIDDEN;
 		} catch (Exception ex) {
 			errors.add(ex.getMessage());
 		}
-		return createBaseResponse(HttpStatus.CREATED, HttpStatus.BAD_REQUEST, errors, vote);
+		return createBaseResponse(HttpStatus.CREATED, failHttpStatus, errors, vote);
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE, path = PathConstants.ID_VARIABLE_PATH)
@@ -50,7 +55,7 @@ public class VoteController implements ControllerCommonMethods {
 		try {
 			vote = voteService.deleteByKey(voteId);
 		} catch (Exception ex) {
-			errors.add(ex.getMessage());
+			errors.add(String.format("Failed to delete vote with the following Id %s", voteId));
 		}
 		return createBaseResponse(HttpStatus.OK, HttpStatus.BAD_REQUEST, errors, vote);
 	}
@@ -62,6 +67,9 @@ public class VoteController implements ControllerCommonMethods {
 		Vote vote = null;
 		try {
 			vote = voteService.get(voteId);
+			if (vote == null) {
+				errors.add(String.format("Vote with the following Id %s doesn't exist", voteId));
+			}
 		} catch (Exception ex) {
 			errors.add(ex.getMessage());
 		}

@@ -2,6 +2,7 @@ package com.countme.up.controller;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -17,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -29,6 +32,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = { ApplicationConfig.class })
 @ComponentScan(basePackages = { "com.countme.up.dao", "com.countme.up.service", "com.countme.up.controller" })
+@DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 public class CandidateControllerTest {
 
 	private MockMvc mockMvc;
@@ -109,7 +113,7 @@ public class CandidateControllerTest {
 			   		.andExpect(jsonPath("$.data.firstname", is(firstname)))
 			   		.andExpect(jsonPath("$.data.lastname", is(lastname)))
 			   		.andExpect(jsonPath("$.data.email", is(email)))
-			   		.andExpect(jsonPath("$.data.id", is(id)));
+			   		.andExpect(jsonPath("$.data.id", notNullValue()));
 		//@formatter:on
 	}
 

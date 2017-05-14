@@ -13,7 +13,7 @@ public interface PathConstants {
 	/** Votes path constants **/
 	public static final String VOTE_MAIN_PATH = "/votes";
 	public static final String VOTE_SEARCH_PATH = "/search";
-	public static final String VOTE_RESULTS_PATH = "/search";
+	public static final String VOTE_RESULTS_PATH = "/results";
 
 	public static final String ID_VARIABLE_PATH = "/{id}";
 }
