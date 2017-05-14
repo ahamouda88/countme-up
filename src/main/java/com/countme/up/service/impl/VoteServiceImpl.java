@@ -69,7 +69,7 @@ public class VoteServiceImpl implements VoteService {
 	 *             if voter reached the limit of registered votes
 	 */
 	@Override
-	public boolean add(Vote vote) {
+	public synchronized boolean add(Vote vote) {
 		checkNullParameters(vote, vote.getVoter(), vote.getCandidate(), vote.getDate());
 
 		// Return false if voter is not registered
@@ -95,7 +95,7 @@ public class VoteServiceImpl implements VoteService {
 	 * @see VoteService#delete(Vote)
 	 */
 	@Override
-	public Vote delete(Vote vote) {
+	public synchronized Vote delete(Vote vote) {
 		checkNullParameters(vote);
 
 		Vote removedVote = voteDao.remove(vote);

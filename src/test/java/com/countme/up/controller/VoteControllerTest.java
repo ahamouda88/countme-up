@@ -65,12 +65,12 @@ public class VoteControllerTest {
 		testCreateCandidate("Ronaldo", "Cris", "real@gmail.com", 2);
 		testCreateCandidate("David", "Beckham", "england@gmail.com", 3);
 
-		testCreateVote(1L, 1L);
-		testCreateVote(1L, 2L);
-		testCreateVote(2L, 3L);
-		testCreateVote(3L, 1L);
-		testCreateVote(3L, 1L);
-		testCreateVote(3L, 2L);
+		testCreateVote(1L, 1L, "08-20-2017:10:9:30");
+		testCreateVote(1L, 2L, "08-22-2017:10:9:30");
+		testCreateVote(2L, 3L, "08-23-2017:10:9:30");
+		testCreateVote(3L, 1L, "08-24-2017:10:9:30");
+		testCreateVote(3L, 1L, "08-25-2017:10:9:30");
+		testCreateVote(3L, 2L, "08-25-2017:12:9:30");
 
 		/** Test reaching the limit of registered votes **/
 		//@formatter:off
@@ -148,13 +148,24 @@ public class VoteControllerTest {
 			   		.andExpect(jsonPath("$.data", hasSize(5)));
 		//@formatter:on
 
-		/** Test search **/
+		/** Test search with from date **/
 		//@formatter:off
 		mockMvc.perform(get(PathConstants.VOTE_MAIN_PATH + PathConstants.VOTE_SEARCH_PATH)
 					.param("cid", "3")
 					.param("fdate", "08-21-2017:10:9:30"))
 			   			.andExpect(status().isOk())
-			   			.andExpect(jsonPath("$.status.message", is("Success")));
+			   			.andExpect(jsonPath("$.status.message", is("Success")))
+			   			.andExpect(jsonPath("$.data", hasSize(3)));
+		//@formatter:on
+
+		/** Test search with date range **/
+		//@formatter:off
+		mockMvc.perform(get(PathConstants.VOTE_MAIN_PATH + PathConstants.VOTE_SEARCH_PATH)
+					.param("fdate", "08-21-2017:10:9:30")
+					.param("tdate", "08-25-2017:9:9:30"))
+			   			.andExpect(status().isOk())
+			   			.andExpect(jsonPath("$.status.message", is("Success")))
+			   			.andExpect(jsonPath("$.data", hasSize(3)));
 		//@formatter:on
 	}
 
@@ -189,11 +200,12 @@ public class VoteControllerTest {
 		//@formatter:on
 	}
 
-	private void testCreateVote(Long candidateId, Long voterId) throws Exception {
+	private void testCreateVote(Long candidateId, Long voterId, String date) throws Exception {
 		//@formatter:off
 		mockMvc.perform(get(PathConstants.VOTE_MAIN_PATH)
 					.param("cid", String.valueOf(candidateId))
-					.param("vid", String.valueOf(voterId)))
+					.param("vid", String.valueOf(voterId))
+					.param("date", date))
 			   			.andExpect(status().isCreated())
 			   			.andExpect(jsonPath("$.status.message", is("Success")))
 			   			.andExpect(jsonPath("$.data.id", notNullValue()))
