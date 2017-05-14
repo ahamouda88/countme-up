@@ -58,8 +58,18 @@ Count me up is a vote counting and results generating system, and it is a web se
 }
 ```
 
+### Votes End Points:
+|              				URI                                 |                  Description                |    Method   |
+|---------------------------------------------------------------|---------------------------------------------|-------------|
+| /votes?cId={cId}&vId={vId}&date={date}                        | Adds a vote                                 |     GET     |
+| /votes                                                        | Returns all votes                           |     GET     |
+| /votes/{id}                       							| Deletes a vote, given a vote's Id           |    DELETE   |
+| /votes/{id}                   							    | Returns a vote, given a vote's Id           |     GET     |
+| /votes/results                                                | Returns the results of the poll             |     GET     |
+| /votes/search?cId={cId}&vId={vId}&fdate={fdate}&tdate={tdate} | Searches the votes      					  |     GET     |
+
 #### Votes Search End Point
-* URI: 
+* URI: /votes/search?cId={cId}&vId={vId}&fdate={fdate}&tdate={tdate}
 * Description: Filters votes based on to the given candidate Id, voter Id, from date, and to date
 * Request Params: (candidateId, VoterId, fromDate, toDate) all parameters are OPTIONAL
 * Method: GET

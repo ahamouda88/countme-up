@@ -10,6 +10,7 @@ public interface PathConstants {
 
 	public static final String VOTER_MAIN_PATH = "/voters";
 	public static final String CANDIDATE_MAIN_PATH = "/candidates";
+	public static final String VOTE_MAIN_PATH = "/votes";
 
 	public static final String ID_VARIABLE_PATH = "/{id}";
 }
