@@ -21,7 +21,7 @@ Count me up is a vote counting and results generating system, and it is a web se
 - Data is being initialized when first run the server: 4 candidates, and 20 registered voters were created
 
 ## RESTful Web Service
-### Voters End Points:
+### Voters End-Points:
 |              URI                   |                  Description                     		              |    Method   |
 |------------------------------------|------------------------------------------------------------------------|-------------|
 | /voters                            | Returns the list of all voters           							  |     GET     |
@@ -39,7 +39,7 @@ Count me up is a vote counting and results generating system, and it is a web se
 }
 ```
 
-### Candidates End Points:
+### Candidates End-Points:
 |              URI                   |                  Description                     		              |    Method   |
 |------------------------------------|------------------------------------------------------------------------|-------------|
 | /candidates                        | Returns the list of all candidates           						  |     GET     |
@@ -58,20 +58,20 @@ Count me up is a vote counting and results generating system, and it is a web se
 }
 ```
 
-### Votes End Points:
+### Votes End-Points:
 |              				URI                                 |                  Description                |    Method   |
 |---------------------------------------------------------------|---------------------------------------------|-------------|
-| /votes?cId={cId}&vId={vId}&date={date}                        | Adds a vote                                 |     GET     |
-| /votes                                                        | Returns all votes                           |     GET     |
+| /votes?cid={cid}&vid={vid}&date={date}                        | Adds a vote                                 |     GET     |
 | /votes/{id}                       							| Deletes a vote, given a vote's Id           |    DELETE   |
 | /votes/{id}                   							    | Returns a vote, given a vote's Id           |     GET     |
-| /votes/results                                                | Returns the results of the poll             |     GET     |
-| /votes/search?cId={cId}&vId={vId}&fdate={fdate}&tdate={tdate} | Searches the votes      					  |     GET     |
+| /votes/results?cid={cid}&vid={vid}&fdate={fdate}&tdate={tdate}| Returns results of the poll in a map format |     GET     |
+| /votes/search?cid={cid}&vid={vid}&fdate={fdate}&tdate={tdate} | Searches the votes      					  |     GET     |
 
-#### Votes Search End Point
-* URI: /votes/search?cId={cId}&vId={vId}&fdate={fdate}&tdate={tdate}
+> Note: Difference between results and search end-points is that the results returns each candidate along with the number of received votes, while the search end-point returns detailed information about the votes, such as date, voters, ...etc
+#### Votes Search End-Point
+* URI: /votes/search?cid={cid}&vid={vid}&fdate={fdate}&tdate={tdate}
 * Description: Filters votes based on to the given candidate Id, voter Id, from date, and to date
-* Request Params: (candidateId, VoterId, fromDate, toDate) all parameters are OPTIONAL
+* Request Params: (candidate Id, Voter `Id, fromDate, toDate) all parameters are OPTIONAL
 * Method: GET
 
 > Note: Date provided should be in the following format: MM-dd-yyyy. For example: 08-21-2017

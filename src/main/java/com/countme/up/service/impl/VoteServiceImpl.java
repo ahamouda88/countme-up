@@ -18,6 +18,7 @@ import com.countme.up.dao.VoterDao;
 import com.countme.up.model.entity.Candidate;
 import com.countme.up.model.entity.Vote;
 import com.countme.up.model.entity.Voter;
+import com.countme.up.model.exception.MaxNbrOfVotesReachedException;
 import com.countme.up.model.request.VoteSearchRequest;
 import com.countme.up.service.VoteService;
 
@@ -41,16 +42,18 @@ public class VoteServiceImpl implements VoteService {
 	private CandidateDao candidateDao;
 
 	/**
-	 * @see VoteService#create(Long, Long)
+	 * @see VoteService#create(Long, Long, Date)
 	 */
 	@Override
-	public Vote create(Long voterId, Long candidateId) {
+	public Vote create(Long voterId, Long candidateId, Date date) {
 		checkNullParameters(voterId, candidateId);
 
 		/** Get voter and candidate using the given Ids **/
 		Voter voter = voterDao.findById(voterId);
 		Candidate candidate = candidateDao.findById(candidateId);
-		Date date = Calendar.getInstance().getTime();
+
+		// If given date is null, then use the date now
+		if (date == null) date = Calendar.getInstance().getTime();
 
 		Vote vote = new Vote(voter, candidate, date);
 
@@ -59,6 +62,9 @@ public class VoteServiceImpl implements VoteService {
 
 	/**
 	 * @see VoteService#add(Vote)
+	 * 
+	 * @throws MaxNbrOfVotesReachedException
+	 *             if voter reached the limit of registered votes
 	 */
 	@Override
 	public boolean add(Vote vote) {
@@ -66,6 +72,12 @@ public class VoteServiceImpl implements VoteService {
 
 		// Return false if voter is not registered
 		if (!vote.getVoter().getRegistered()) return false;
+
+		// Don't register vote if voter has reached the limit of votes
+		if (vote.getVoter().getVotes().size() == MAX_VOTES) {
+			throw new MaxNbrOfVotesReachedException(
+					"Voter has reached the limit of registered votes which is " + MAX_VOTES);
+		}
 
 		boolean check = voteDao.save(vote);
 		// If vote is successfully added then update the list of votes in both voter, and candidate
@@ -140,13 +152,15 @@ public class VoteServiceImpl implements VoteService {
 	}
 
 	/**
-	 * @see VoteService#getResults()
+	 * @see VoteService#getResults(VoteSearchRequest)
 	 */
 	@Override
-	public Map<Candidate, Long> getResults() {
-		List<Vote> allVotes = this.getAll();
-		Map<Candidate, Long> map = new HashMap<>();
+	public Map<Candidate, Long> getResults(VoteSearchRequest searchRequest) {
+		List<Vote> allVotes = this.search(searchRequest);
 
+		if (allVotes == null) return null;
+
+		Map<Candidate, Long> map = new HashMap<>();
 		for (Vote vote : allVotes) {
 			Long count = map.get(vote.getCandidate());
 			if (count == null) count = 0L;

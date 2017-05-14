@@ -64,7 +64,7 @@ public class CandidateControllerTest {
 		/** Test get method with invalid Id **/
 		//@formatter:off
 		mockMvc.perform(get(PathConstants.CANDIDATE_MAIN_PATH + "/100"))
-			   		.andExpect(status().isNoContent())
+			   		.andExpect(status().isBadRequest())
 			   		.andExpect(jsonPath("$.status.message", is("Failed")))
 			   		.andExpect(jsonPath("$.status.errors[0]", is("Candidate with the following Id 100 doesn't exist")));
 		//@formatter:on
@@ -82,7 +82,7 @@ public class CandidateControllerTest {
 		/** Test delete method with invalid Id **/
 		//@formatter:off
 		mockMvc.perform(delete(PathConstants.CANDIDATE_MAIN_PATH + "/10"))
-			   		.andExpect(status().isNoContent())
+			   		.andExpect(status().isBadRequest())
 			   		.andExpect(jsonPath("$.status.message", is("Failed")))
 			   		.andExpect(jsonPath("$.status.errors[0]", is("Candidate with the following Id 10 doesn't exist")));
 		//@formatter:on

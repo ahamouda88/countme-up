@@ -19,6 +19,8 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * An entity that represents a voter, with the list of votes
@@ -29,6 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name = "voters")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@JsonInclude(value = Include.NON_EMPTY)
 public class Voter extends Individual implements Serializable {
 
 	private static final long serialVersionUID = 1L;

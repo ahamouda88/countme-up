@@ -15,12 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.countme.up.model.constants.PathConstants;
 import com.countme.up.model.entity.Voter;
 import com.countme.up.model.response.BaseResponse;
-import com.countme.up.model.response.ResponseStatus;
 import com.countme.up.service.VoterService;
 
 @RestController
 @RequestMapping(value = PathConstants.VOTER_MAIN_PATH)
-public class VoterController {
+public class VoterController implements ControllerCommonMethods {
 
 	@Autowired
 	private VoterService voterService;
@@ -29,98 +28,48 @@ public class VoterController {
 	public ResponseEntity<BaseResponse> getAllVoters() {
 		List<Voter> voters = voterService.getAll();
 
-		HttpStatus httpStatus;
-		String message;
-		if (voters == null) {
-			httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-			message = "Failed";
-		} else {
-			httpStatus = HttpStatus.OK;
-			message = "Success";
-		}
-
-		return createBaseResponse(httpStatus, null, message, voters);
+		return createBaseResponse(HttpStatus.OK, HttpStatus.INTERNAL_SERVER_ERROR, null, voters);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<BaseResponse> addVoter(@RequestBody Voter voter) {
 		List<String> errors = new LinkedList<>();
-		HttpStatus httpStatus;
-		String message;
-
-		if (voter == null) {
-			errors.add("Voter parameter shouldn't be null");
-			httpStatus = HttpStatus.BAD_REQUEST;
-			message = "Failed";
-		} else {
+		try {
 			boolean check = voterService.add(voter);
-			if (check) {
-				httpStatus = HttpStatus.CREATED;
-				message = "Success";
-			} else {
-				httpStatus = HttpStatus.BAD_REQUEST;
-				message = "Failed";
-			}
+			if (!check) voter = null;
+		} catch (Exception ex) {
+			errors.add(ex.getMessage());
 		}
-		return createBaseResponse(httpStatus, errors, message, voter);
+		return createBaseResponse(HttpStatus.CREATED, HttpStatus.BAD_REQUEST, errors, voter);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, path = PathConstants.ID_VARIABLE_PATH)
 	public ResponseEntity<BaseResponse> getVoter(@PathVariable(name = "id") Long voterId) {
 		List<String> errors = new LinkedList<>();
-		HttpStatus httpStatus;
-		String message;
-		Voter voter;
-
-		if (voterId == null) {
-			errors.add("Voter Id parameter shouldn't be null");
-			httpStatus = HttpStatus.BAD_REQUEST;
-			message = "Failed";
-			voter = null;
-		} else {
+		Voter voter = null;
+		try {
 			voter = voterService.get(voterId);
-			if (voter != null) {
-				httpStatus = HttpStatus.OK;
-				message = "Success";
-			} else {
+			if (voter == null) {
 				errors.add(String.format("Voter with the following Id %s doesn't exist", voterId));
-				httpStatus = HttpStatus.NO_CONTENT;
-				message = "Failed";
 			}
+		} catch (Exception ex) {
+			errors.add(ex.getMessage());
 		}
-		return createBaseResponse(httpStatus, errors, message, voter);
+		return createBaseResponse(HttpStatus.OK, HttpStatus.BAD_REQUEST, errors, voter);
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE, path = PathConstants.ID_VARIABLE_PATH)
 	public ResponseEntity<BaseResponse> deleteVoter(@PathVariable(name = "id") Long voterId) {
 		List<String> errors = new LinkedList<>();
-		HttpStatus httpStatus;
-		String message;
-		Voter voter;
-
-		if (voterId == null) {
-			errors.add("Voter Id parameter shouldn't be null");
-			httpStatus = HttpStatus.BAD_REQUEST;
-			message = "Failed";
-			voter = null;
-		} else {
+		Voter voter = null;
+		try {
 			voter = voterService.deleteByKey(voterId);
-			if (voter != null) {
-				httpStatus = HttpStatus.OK;
-				message = "Success";
-			} else {
+			if (voter == null) {
 				errors.add(String.format("Voter with the following Id %s doesn't exist", voterId));
-				httpStatus = HttpStatus.NO_CONTENT;
-				message = "Failed";
 			}
+		} catch (Exception ex) {
+			errors.add(ex.getMessage());
 		}
-		return createBaseResponse(httpStatus, errors, message, voter);
-	}
-
-	private ResponseEntity<BaseResponse> createBaseResponse(HttpStatus httpStatus, List<String> errors, String message,
-			Object data) {
-		ResponseStatus status = ResponseStatus.builder().code(httpStatus.value()).errors(errors).message(message)
-				.build();
-		return new ResponseEntity<>(BaseResponse.builder().data(data).status(status).build(), httpStatus);
+		return createBaseResponse(HttpStatus.OK, HttpStatus.BAD_REQUEST, errors, voter);
 	}
 }

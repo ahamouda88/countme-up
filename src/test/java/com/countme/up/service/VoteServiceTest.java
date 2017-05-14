@@ -22,6 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.countme.up.model.entity.Candidate;
 import com.countme.up.model.entity.Vote;
 import com.countme.up.model.entity.Voter;
+import com.countme.up.model.exception.MaxNbrOfVotesReachedException;
 import com.countme.up.model.request.VoteSearchRequest;
 import com.countme.up.spring.config.ApplicationConfig;
 import com.countme.up.utils.DateUtils;
@@ -271,7 +272,7 @@ public class VoteServiceTest {
 		expectedCount.put(candidateIds[0], 6L);
 		expectedCount.put(candidateIds[1], 1L);
 		expectedCount.put(candidateIds[2], 4L);
-		Map<Candidate, Long> resultMap = voteService.getResults();
+		Map<Candidate, Long> resultMap = voteService.getResults(VoteSearchRequest.builder().build());
 		assertEquals("Invalid number of candidates!", 3, resultMap.size());
 
 		for (Entry<Candidate, Long> entry : resultMap.entrySet()) {
@@ -282,6 +283,18 @@ public class VoteServiceTest {
 		}
 	}
 
+	@Test(expected = MaxNbrOfVotesReachedException.class)
+	public void testMaxNumberOfVotes() {
+		Voter voter = voterService.get(voterIds[0]);
+		Candidate candidate = candidateService.get(candidateIds[2]);
+		Date date = DateUtils.getDate(2017, 5, 2, 1, 10);
+		Vote vote = new Vote(voter, candidate, date);
+		voteService.add(vote);
+		// With this add the number of registered votes will be 4! which is invalid
+		Vote extraVote = new Vote(voter, candidate, date);
+		voteService.add(extraVote);
+	}
+
 	@Test(expected = NullPointerException.class)
 	public void testInvalidAdd() {
 		voteService.add(null);
@@ -289,7 +302,7 @@ public class VoteServiceTest {
 
 	@Test(expected = NullPointerException.class)
 	public void testInvalidCreate() {
-		voteService.create(null, 1L);
+		voteService.create(null, 1L, null);
 	}
 
 	@Test(expected = NullPointerException.class)

@@ -14,6 +14,8 @@ import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * An entity that represents a vote, that contains a voter, a candidate, and the associated poll
@@ -23,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @Entity
 @Table(name = "votes")
+@JsonInclude(value = Include.NON_EMPTY)
 public class Vote implements Serializable {
 
 	private static final long serialVersionUID = 1L;

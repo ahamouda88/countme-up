@@ -2,12 +2,16 @@ package com.countme.up.model.response;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 /**
  * A class that represents the response from the API. It consists of the {@link ResponseStatus} and data
  * 
  * @author ahamouda
  * 
  */
+@JsonInclude(value = Include.NON_EMPTY)
 public class BaseResponse implements Serializable {
 
 	private static final long serialVersionUID = 1L;

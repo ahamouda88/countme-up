@@ -4,11 +4,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 /**
  * A class that represents the status of the response
  * 
  * @author ahamouda
  */
+@JsonInclude(value = Include.NON_EMPTY)
 public class ResponseStatus implements Serializable {
 
 	private static final long serialVersionUID = 1L;

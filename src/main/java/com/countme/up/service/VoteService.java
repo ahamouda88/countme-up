@@ -1,5 +1,6 @@
 package com.countme.up.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,8 @@ import com.countme.up.model.request.VoteSearchRequest;
  */
 public interface VoteService extends MainService<Vote, Long> {
 
+	public static final int MAX_VOTES = 3;
+
 	/**
 	 * A method that creates a {@link Vote}, given a voter's Id and a candidate's Id
 	 * 
@@ -22,9 +25,13 @@ public interface VoteService extends MainService<Vote, Long> {
 	 *            a voter's Id
 	 * @param candidateId
 	 *            a candidate's Id
+	 * @param date
+	 *            the date of the vote
 	 * @return the new created vote if added successfully, otherwise return <i><b>null</b></i>
+	 * @throws MaxNbrOfVotesReachedException
+	 *             if voter reached the limit of registered votes
 	 */
-	public abstract Vote create(Long voterId, Long candidateId);
+	public abstract Vote create(Long voterId, Long candidateId, Date date);
 
 	/**
 	 * A method that searches through the votes given a {@link VoteSearchRequest} having all the parameters needed to
@@ -39,7 +46,9 @@ public interface VoteService extends MainService<Vote, Long> {
 	/**
 	 * A method that returns the a map that represents each candidate and the number of votes received
 	 * 
+	 * @param searchRequest
+	 *            a {@link VoteSearchRequest}
 	 * @return a map that contains the number of votes received for each candidate
 	 */
-	public abstract Map<Candidate, Long> getResults();
+	public abstract Map<Candidate, Long> getResults(VoteSearchRequest searchRequest);
 }

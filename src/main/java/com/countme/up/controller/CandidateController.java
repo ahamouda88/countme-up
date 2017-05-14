@@ -15,12 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.countme.up.model.constants.PathConstants;
 import com.countme.up.model.entity.Candidate;
 import com.countme.up.model.response.BaseResponse;
-import com.countme.up.model.response.ResponseStatus;
 import com.countme.up.service.CandidateService;
 
 @RestController
 @RequestMapping(value = PathConstants.CANDIDATE_MAIN_PATH)
-public class CandidateController {
+public class CandidateController implements ControllerCommonMethods {
 
 	@Autowired
 	private CandidateService candidateService;
@@ -29,98 +28,48 @@ public class CandidateController {
 	public ResponseEntity<BaseResponse> getAllCandidates() {
 		List<Candidate> candidates = candidateService.getAll();
 
-		HttpStatus httpStatus;
-		String message;
-		if (candidates == null) {
-			httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-			message = "Failed";
-		} else {
-			httpStatus = HttpStatus.OK;
-			message = "Success";
-		}
-
-		return createBaseResponse(httpStatus, null, message, candidates);
+		return createBaseResponse(HttpStatus.OK, HttpStatus.INTERNAL_SERVER_ERROR, null, candidates);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<BaseResponse> addCandidate(@RequestBody Candidate candidate) {
 		List<String> errors = new LinkedList<>();
-		HttpStatus httpStatus;
-		String message;
-
-		if (candidate == null) {
-			errors.add("Candidate parameter shouldn't be null");
-			httpStatus = HttpStatus.BAD_REQUEST;
-			message = "Failed";
-		} else {
+		try {
 			boolean check = candidateService.add(candidate);
-			if (check) {
-				httpStatus = HttpStatus.CREATED;
-				message = "Success";
-			} else {
-				httpStatus = HttpStatus.BAD_REQUEST;
-				message = "Failed";
-			}
+			if (!check) candidate = null;
+		} catch (Exception ex) {
+			errors.add(ex.getMessage());
 		}
-		return createBaseResponse(httpStatus, errors, message, candidate);
+		return createBaseResponse(HttpStatus.CREATED, HttpStatus.BAD_REQUEST, errors, candidate);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, path = PathConstants.ID_VARIABLE_PATH)
 	public ResponseEntity<BaseResponse> getCandidate(@PathVariable(name = "id") Long candidateId) {
 		List<String> errors = new LinkedList<>();
-		HttpStatus httpStatus;
-		String message;
-		Candidate candidate;
-
-		if (candidateId == null) {
-			errors.add("Candidate Id parameter shouldn't be null");
-			httpStatus = HttpStatus.BAD_REQUEST;
-			message = "Failed";
-			candidate = null;
-		} else {
+		Candidate candidate = null;
+		try {
 			candidate = candidateService.get(candidateId);
-			if (candidate != null) {
-				httpStatus = HttpStatus.OK;
-				message = "Success";
-			} else {
+			if (candidate == null) {
 				errors.add(String.format("Candidate with the following Id %s doesn't exist", candidateId));
-				httpStatus = HttpStatus.NO_CONTENT;
-				message = "Failed";
 			}
+		} catch (Exception ex) {
+			errors.add(ex.getMessage());
 		}
-		return createBaseResponse(httpStatus, errors, message, candidate);
+		return createBaseResponse(HttpStatus.OK, HttpStatus.BAD_REQUEST, errors, candidate);
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE, path = PathConstants.ID_VARIABLE_PATH)
 	public ResponseEntity<BaseResponse> deleteCandidate(@PathVariable(name = "id") Long candidateId) {
 		List<String> errors = new LinkedList<>();
-		HttpStatus httpStatus;
-		String message;
-		Candidate candidate;
-
-		if (candidateId == null) {
-			errors.add("Candidate Id parameter shouldn't be null");
-			httpStatus = HttpStatus.BAD_REQUEST;
-			message = "Failed";
-			candidate = null;
-		} else {
+		Candidate candidate = null;
+		try {
 			candidate = candidateService.deleteByKey(candidateId);
-			if (candidate != null) {
-				httpStatus = HttpStatus.OK;
-				message = "Success";
-			} else {
+			if (candidate == null) {
 				errors.add(String.format("Candidate with the following Id %s doesn't exist", candidateId));
-				httpStatus = HttpStatus.NO_CONTENT;
-				message = "Failed";
 			}
+		} catch (Exception ex) {
+			errors.add(ex.getMessage());
 		}
-		return createBaseResponse(httpStatus, errors, message, candidate);
-	}
-
-	private ResponseEntity<BaseResponse> createBaseResponse(HttpStatus httpStatus, List<String> errors, String message,
-			Object data) {
-		ResponseStatus status = ResponseStatus.builder().code(httpStatus.value()).errors(errors).message(message)
-				.build();
-		return new ResponseEntity<>(BaseResponse.builder().data(data).status(status).build(), httpStatus);
+		return createBaseResponse(HttpStatus.OK, HttpStatus.BAD_REQUEST, errors, candidate);
 	}
 }

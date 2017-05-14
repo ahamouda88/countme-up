@@ -4,6 +4,9 @@ import java.io.Serializable;
 
 import javax.persistence.MappedSuperclass;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 /**
  * An entity that represents an individual and contains main individual information
  * 
@@ -11,6 +14,7 @@ import javax.persistence.MappedSuperclass;
  *
  */
 @MappedSuperclass
+@JsonInclude(value = Include.NON_EMPTY)
 public abstract class Individual implements Serializable {
 
 	private static final long serialVersionUID = 1L;
