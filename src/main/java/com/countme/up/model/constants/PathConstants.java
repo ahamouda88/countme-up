@@ -8,8 +8,8 @@ package com.countme.up.model.constants;
  */
 public interface PathConstants {
 
-	public static final String VOTER_MAIN_PATH = "/voter";
-	public static final String CANDIDATE_MAIN_PATH = "/candidate";
+	public static final String VOTER_MAIN_PATH = "/voters";
+	public static final String CANDIDATE_MAIN_PATH = "/candidates";
 
 	public static final String ID_VARIABLE_PATH = "/{id}";
 }
