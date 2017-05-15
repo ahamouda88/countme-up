@@ -61,11 +61,11 @@ Count me up is a vote counting and results generating system, and it is a web se
 ### Votes End-Points:
 |              				URI                                 |                  Description                |    Method   |
 |---------------------------------------------------------------|---------------------------------------------|-------------|
-| /votes?cid={cid}&vid={vid}&date={date}                        | Adds a vote                                 |     GET     |
+| /votes?cid={cid}&vid={vid}&date={date}                        | Adds a vote (date parameter is OPTIONAL)    |     GET     |
 | /votes/{id}                       							| Deletes a vote, given a vote's Id           |    DELETE   |
 | /votes/{id}                   							    | Returns a vote, given a vote's Id           |     GET     |
-| /votes/results?cid={cid}&vid={vid}&fdate={fdate}&tdate={tdate}| Returns results of the poll in a map format (All Parameter are OPTIONAL) |     GET     |
-| /votes/search?cid={cid}&vid={vid}&fdate={fdate}&tdate={tdate} | Searches the votes (All Parameter are OPTIONAL)     |     GET     |
+| /votes/results?cid={cid}&vid={vid}&fdate={fdate}&tdate={tdate}| Returns results of the poll in a Candidate/Votes format (All Parameters are OPTIONAL) |     GET     |
+| /votes/search?cid={cid}&vid={vid}&fdate={fdate}&tdate={tdate} | Searches the votes (All Parameters are OPTIONAL)     |     GET     |
 
 ##### Query Parameters
 ```json
