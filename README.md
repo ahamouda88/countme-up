@@ -64,8 +64,8 @@ Count me up is a vote counting and results generating system, and it is a web se
 | /votes?cid={cid}&vid={vid}&date={date}                        | Adds a vote                                 |     GET     |
 | /votes/{id}                       							| Deletes a vote, given a vote's Id           |    DELETE   |
 | /votes/{id}                   							    | Returns a vote, given a vote's Id           |     GET     |
-| /votes/results?cid={cid}&vid={vid}&fdate={fdate}&tdate={tdate}| Returns results of the poll in a map format |     GET     |
-| /votes/search?cid={cid}&vid={vid}&fdate={fdate}&tdate={tdate} | Searches the votes      					  |     GET     |
+| /votes/results?cid={cid}&vid={vid}&fdate={fdate}&tdate={tdate}| Returns results of the poll in a map format (All Parameter are OPTIONAL) |     GET     |
+| /votes/search?cid={cid}&vid={vid}&fdate={fdate}&tdate={tdate} | Searches the votes (All Parameter are OPTIONAL)     |     GET     |
 
 ##### Query Parameters
 ```json
@@ -75,6 +75,6 @@ fdate = From/Start date
 tdate = To/End date
 ```
 
-> Note: Difference between results and search end-points is that the results returns each candidate along with the number of received votes, while the search end-point returns detailed information about the votes, such as date, voters, ...etc
+> Note: Difference between results and search end-points is that the results returns each candidate along with the number of received votes, while the search end-point returns detailed information about the votes, such as date, voters, ... etc
 
 > Note: Date provided should be in the following format: MM-dd-yyyy:HH:mm:ss. For example: 08-21-2017:10:9:30
