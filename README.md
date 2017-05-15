@@ -16,7 +16,7 @@ Count me up is a vote counting and results generating system, and it is a web se
 	1. A jar file will be create at './target' folder, copy the file and deploy it to a web server
 	2. Simply you can either run the application by executing '/src/main/java/com/countme/up/spring/config/ApplicationConfig.java' or use the following command: mvn spring-boot:run
 	
-### Assumtions:
+### Assumptions:
 - Only one poll is being considered
 - Data is being initialized when first run the server: 4 candidates, and 20 registered voters were created
 
