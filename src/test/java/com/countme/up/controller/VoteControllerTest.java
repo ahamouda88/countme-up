@@ -126,9 +126,9 @@ public class VoteControllerTest {
 			   		.andExpect(status().isOk())
 			   		.andExpect(jsonPath("$.status.message", is("Success")))
 			   		.andExpect(jsonPath("$.data", hasSize(3)))
-			   		.andExpect(jsonPath("$.data[0].votes", is(1)))
-					.andExpect(jsonPath("$.data[1].votes", is(1)))
-					.andExpect(jsonPath("$.data[2].votes", is(3)));
+			   		.andExpect(jsonPath("$.data[0].numOfVotes", is(1)))
+					.andExpect(jsonPath("$.data[1].numOfVotes", is(1)))
+					.andExpect(jsonPath("$.data[2].numOfVotes", is(3)));
 		//@formatter:on
 
 		/** Test get results **/

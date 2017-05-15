@@ -86,15 +86,15 @@ public class VoteController implements ControllerCommonMethods {
 			@RequestParam(name = "tdate", required = false) @DateTimeFormat(pattern = DATE_FORMAT_STRING) Date toDate) {
 
 		List<String> errors = new LinkedList<>();
-		CandidateCount[] votesMap = null;
+		CandidateCount[] candidateCount = null;
 		try {
 			VoteSearchRequest searchRequest = VoteSearchRequest.builder().candidateId(candidateId).voterId(voterId)
 					.fromDate(fromDate).toDate(toDate).build();
-			votesMap = voteService.getResults(searchRequest);
+			candidateCount = voteService.getResults(searchRequest);
 		} catch (Exception ex) {
 			errors.add(ex.getMessage());
 		}
-		return createBaseResponse(HttpStatus.OK, HttpStatus.BAD_REQUEST, errors, votesMap);
+		return createBaseResponse(HttpStatus.OK, HttpStatus.BAD_REQUEST, errors, candidateCount);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, path = PathConstants.VOTE_SEARCH_PATH)
@@ -104,14 +104,14 @@ public class VoteController implements ControllerCommonMethods {
 			@RequestParam(name = "tdate", required = false) @DateTimeFormat(pattern = DATE_FORMAT_STRING) Date toDate) {
 
 		List<String> errors = new LinkedList<>();
-		List<Vote> votesMap = null;
+		List<Vote> votes = null;
 		try {
 			VoteSearchRequest searchRequest = VoteSearchRequest.builder().candidateId(candidateId).voterId(voterId)
 					.fromDate(fromDate).toDate(toDate).build();
-			votesMap = voteService.search(searchRequest);
+			votes = voteService.search(searchRequest);
 		} catch (Exception ex) {
 			errors.add(ex.getMessage());
 		}
-		return createBaseResponse(HttpStatus.OK, HttpStatus.BAD_REQUEST, errors, votesMap);
+		return createBaseResponse(HttpStatus.OK, HttpStatus.BAD_REQUEST, errors, votes);
 	}
 }

@@ -167,7 +167,8 @@ public class VoteServiceImpl implements VoteService {
 		for (Vote vote : allVotes) {
 			Candidate candidate = vote.getCandidate();
 			if (!candidateIds.contains(candidate.getId())) {
-				candidateCount.add(new CandidateCount(candidate, candidate.getVotesReceived().size()));
+				candidateCount.add(new CandidateCount(candidate.getId(),
+						candidate.getFirstname() + " " + candidate.getLastname(), candidate.getVotesReceived().size()));
 				candidateIds.add(candidate.getId());
 			}
 		}

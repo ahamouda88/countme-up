@@ -275,10 +275,10 @@ public class VoteServiceTest {
 		CandidateCount[] resultCount = voteService.getResults(VoteSearchRequest.builder().build());
 		assertEquals("Invalid number of candidates!", 3, resultCount.length);
 
-		for (CandidateCount candidateCount: resultCount) {
-			long candidateId = candidateCount.getCandidate().getId();
+		for (CandidateCount candidateCount : resultCount) {
+			long candidateId = candidateCount.getCandidateId();
 			long expectedValue = expectedCount.get(candidateId);
-			long actualValue = candidateCount.getVotes();
+			long actualValue = candidateCount.getNumOfVotes();
 			assertEquals("Invalid number of received votes for candidate: " + candidateId, expectedValue, actualValue);
 		}
 	}
