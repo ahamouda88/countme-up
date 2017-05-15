@@ -45,7 +45,8 @@ public class VoteController implements ControllerCommonMethods {
 			errors.add(ex.getMessage());
 			failHttpStatus = HttpStatus.FORBIDDEN;
 		} catch (Exception ex) {
-			errors.add(ex.getMessage());
+			errors.add(
+					String.format("Failed to add vote given candidate Id: %s and Voter Id: %s", candidateId, voterId));
 		}
 		return createBaseResponse(HttpStatus.CREATED, failHttpStatus, errors, vote);
 	}
@@ -74,7 +75,7 @@ public class VoteController implements ControllerCommonMethods {
 				errors.add(String.format("Vote with the following Id %s doesn't exist", voteId));
 			}
 		} catch (Exception ex) {
-			errors.add(ex.getMessage());
+			errors.add(String.format("Failed to get vote given vote Id: %s", voteId));
 		}
 		return createBaseResponse(HttpStatus.OK, HttpStatus.BAD_REQUEST, errors, vote);
 	}
@@ -92,7 +93,7 @@ public class VoteController implements ControllerCommonMethods {
 					.fromDate(fromDate).toDate(toDate).build();
 			candidateCount = voteService.getResults(searchRequest);
 		} catch (Exception ex) {
-			errors.add(ex.getMessage());
+			errors.add(String.format("Failed to get vote results!"));
 		}
 		return createBaseResponse(HttpStatus.OK, HttpStatus.BAD_REQUEST, errors, candidateCount);
 	}
@@ -110,7 +111,7 @@ public class VoteController implements ControllerCommonMethods {
 					.fromDate(fromDate).toDate(toDate).build();
 			votes = voteService.search(searchRequest);
 		} catch (Exception ex) {
-			errors.add(ex.getMessage());
+			errors.add(String.format("Failed to do search on votes!"));
 		}
 		return createBaseResponse(HttpStatus.OK, HttpStatus.BAD_REQUEST, errors, votes);
 	}

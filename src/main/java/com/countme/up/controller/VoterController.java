@@ -38,7 +38,7 @@ public class VoterController implements ControllerCommonMethods {
 			boolean check = voterService.add(voter);
 			if (!check) voter = null;
 		} catch (Exception ex) {
-			errors.add(ex.getMessage());
+			errors.add(String.format("Failed to add Voter!"));
 		}
 		return createBaseResponse(HttpStatus.CREATED, HttpStatus.BAD_REQUEST, errors, voter);
 	}
@@ -53,7 +53,7 @@ public class VoterController implements ControllerCommonMethods {
 				errors.add(String.format("Voter with the following Id %s doesn't exist", voterId));
 			}
 		} catch (Exception ex) {
-			errors.add(ex.getMessage());
+			errors.add(String.format("Failed to get Voter!"));
 		}
 		return createBaseResponse(HttpStatus.OK, HttpStatus.BAD_REQUEST, errors, voter);
 	}
@@ -68,7 +68,7 @@ public class VoterController implements ControllerCommonMethods {
 				errors.add(String.format("Voter with the following Id %s doesn't exist", voterId));
 			}
 		} catch (Exception ex) {
-			errors.add(ex.getMessage());
+			errors.add(String.format("Failed to delete Voter!"));
 		}
 		return createBaseResponse(HttpStatus.OK, HttpStatus.BAD_REQUEST, errors, voter);
 	}

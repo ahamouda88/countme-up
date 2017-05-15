@@ -38,7 +38,7 @@ public class CandidateController implements ControllerCommonMethods {
 			boolean check = candidateService.add(candidate);
 			if (!check) candidate = null;
 		} catch (Exception ex) {
-			errors.add(ex.getMessage());
+			errors.add(String.format("Failed to add Candidate!"));
 		}
 		return createBaseResponse(HttpStatus.CREATED, HttpStatus.BAD_REQUEST, errors, candidate);
 	}
@@ -53,7 +53,7 @@ public class CandidateController implements ControllerCommonMethods {
 				errors.add(String.format("Candidate with the following Id %s doesn't exist", candidateId));
 			}
 		} catch (Exception ex) {
-			errors.add(ex.getMessage());
+			errors.add(String.format("Failed to get Candidate!"));
 		}
 		return createBaseResponse(HttpStatus.OK, HttpStatus.BAD_REQUEST, errors, candidate);
 	}
@@ -68,7 +68,7 @@ public class CandidateController implements ControllerCommonMethods {
 				errors.add(String.format("Candidate with the following Id %s doesn't exist", candidateId));
 			}
 		} catch (Exception ex) {
-			errors.add(ex.getMessage());
+			errors.add(String.format("Failed to delete Candidate!"));
 		}
 		return createBaseResponse(HttpStatus.OK, HttpStatus.BAD_REQUEST, errors, candidate);
 	}
